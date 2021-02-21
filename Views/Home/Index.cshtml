@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<style>
+    #imagen{
+        background-image: url("/Img/fondo.jpg");
+        background-size:cover;
+    }
+</style>
+
+
+<div id="imagen" class="jumbotron">
+    <h1>Dr. Jorge Valdes G.</h1>
+    <p class="lead">Centro Dermatológico - Quirúrgico y estético</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>
+            @Html.ActionLink("Pacientes", "Index", "Pacientes")
+        </h2>
+        <img src="~/Img/icono-usuario.png" / width="140 px">
+    </div>
+    <div class="col-md-4">
+        <h2>
+            @Html.ActionLink("Reservas", "Index", "Reservas")
+        </h2>
+        <img src="~/Img/icono-calendario.png" width="140 px"/>
+    </div>
+    <div class="col-md-4">
+        <h2>
+            @Html.ActionLink("Historial", "Index", "HistoriaClinicas")
+        </h2>
+        <img src="~/Img/icono-historial.png" width="140px"/>
+    </div>
+
+    <div class="col-md-4">
+        <h2>
+            @Html.ActionLink("Empleados", "Index", "Empleadoes")
+        </h2>
+        <img src="~/Img/icono-empleado.png" width="140 px"/>
+    </div>
+</div>

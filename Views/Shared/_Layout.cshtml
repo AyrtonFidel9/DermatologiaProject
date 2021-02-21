@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dermatología</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="~/Content/StyleLayout.css" />
+    <style>
+        #header {
+            background: rgb(17,142,255);
+            background: linear-gradient(63deg, rgba(17,142,255,1) 0%, rgba(53,147,232,1) 48%, rgba(69,167,255,1) 100%);
+            border-color: rgb(17,142,255);
+            color:black;
+        }
+        #letras > ul > li > a, #header > div > div > a{
+            color:black;
+        }
+        #letras > ul > li > a:hover{
+            color: white;
+        }
+        #header > div > div > a:hover {
+            color: white;
+        }
+        #cuerpo{
+            background-color:ivory;
+        }
+        
+    </style>
+</head>
+
+
+<body style="background-color: ivory;">
+    <div id="header" class="navbar navbar-inverse navbar-fixed-top title-color">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Centro Dermatológico", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div id="letras" class="navbar-collapse collapse ">
+                <ul class="nav navbar-nav ">
+                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Pacientes", "Index", "Pacientes")</li>
+                    <li>@Html.ActionLink("Reservas", "Index", "Reservas")</li>
+                    <li>@Html.ActionLink("Historial", "Index", "HistoriaClinicas")</li>
+                    <li>@Html.ActionLink("Empleados", "Index", "Empleadoes")</li>
+
+                    
+                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div  class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Centro Dermatológico</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

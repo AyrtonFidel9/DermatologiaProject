@@ -1,0 +1,80 @@
+﻿@model WebAppDermatologia.Models.HistoriaClinica
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Eliminar</h2>
+
+<h3>¿Estás seguro que deseas eliminar esto?</h3>
+<div>
+    <h4>Historia Clinica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha_Nacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha_Nacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Antecedentes_Medicos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Antecedentes_Medicos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Alergias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Alergias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Enfermedades_Hereditarias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Enfermedades_Hereditarias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observaciones)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fotografias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fotografias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente.Nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Regresar", "Index")
+        </div>
+    }
+</div>

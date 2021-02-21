@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppDermatologia", "WebAppDermatologia.csproj", "{C316BE94-F30F-43EB-A5CA-E1C242B6AEAF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C316BE94-F30F-43EB-A5CA-E1C242B6AEAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C316BE94-F30F-43EB-A5CA-E1C242B6AEAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C316BE94-F30F-43EB-A5CA-E1C242B6AEAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C316BE94-F30F-43EB-A5CA-E1C242B6AEAF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {75D0219E-E135-4B2C-9656-42549672C53D}
+	EndGlobalSection
+EndGlobal

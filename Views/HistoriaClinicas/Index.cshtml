@@ -1,0 +1,130 @@
+﻿@model IEnumerable<WebAppDermatologia.Models.HistoriaClinica>
+
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    #busqueda {
+        display: flex;
+        flex-direction: row;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: 10px;
+        height: 5em;
+        align-items: center;
+        padding-left: 20px;
+        border-color: rgb(235,235,235);
+        background: rgb(235,235,235);
+        background: linear-gradient(157deg, rgba(235,235,235,1) 0%, rgba(240,240,240,1) 37%, rgba(224,224,224,1) 100%);
+    }
+
+        #busqueda > label {
+            margin-top: 5px;
+        }
+
+        #busqueda > label, #SearchString {
+            margin-right: 10px;
+        }
+
+    #barraBusqueda {
+        display: flex;
+        flex-direction: row;
+    }
+</style>
+
+<h2>Historias Clínicas</h2>
+
+<p>
+    @Html.ActionLink("Crear nueva historia", "Create", null, new { @class = "btn btn-primary" })
+</p>
+@using (Html.BeginForm())
+{
+    <div id="busqueda">
+        <label>Buscar por cédula: </label>
+        <div id="barraBusqueda">
+            @Html.TextBox("SearchString", null, new { @class = "form-control" })
+            <input type="submit" value="Buscar" class="btn btn-success" style="height: 35px;"/>
+        </div>
+    </div>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Paciente.Cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paciente.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paciente.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paciente.Sexo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha_Nacimiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Antecedentes_Medicos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Alergias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enfermedades_Hereditarias)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fotografias)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paciente.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paciente.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paciente.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Paciente.Sexo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha_Nacimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Antecedentes_Medicos)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alergias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Enfermedades_Hereditarias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observaciones)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fotografias)
+            </td>
+
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ID_HistClinica }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.ID_HistClinica }, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.ID_HistClinica }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,671 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DermatologiaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Rol_Servicio" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+          <Property Name="Telefono" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Cedula" Type="char" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HistoriaClinica">
+          <Key>
+            <PropertyRef Name="ID_HistClinica" />
+          </Key>
+          <Property Name="ID_HistClinica" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDPaciente" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Fecha_Nacimiento" Type="date" Nullable="false" />
+          <Property Name="Antecedentes_Medicos" Type="varchar" MaxLength="150" />
+          <Property Name="Alergias" Type="varchar" MaxLength="150" />
+          <Property Name="Enfermedades_Hereditarias" Type="varchar" MaxLength="150" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="100" />
+          <Property Name="Fotografias" Type="image" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefono" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Correo" Type="varchar" MaxLength="50" />
+          <Property Name="Direccion" Type="varchar" MaxLength="50" />
+          <Property Name="Sexo" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="ID_Reserva" />
+          </Key>
+          <Property Name="ID_Reserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDPaciente" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Servicio" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Observaciones" Type="varchar" MaxLength="100" />
+          <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_HistoriaClinica_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="HistoriaClinica" Type="Self.HistoriaClinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="HistoriaClinica">
+              <PropertyRef Name="IDPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="IDPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="buscar_empleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="letra" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="buscar_HistoriaClinica" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="char" Mode="In" />
+        </Function>
+        <Function Name="buscar_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="letra" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="buscar_reserva" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="num" Type="char" Mode="In" />
+        </Function>
+        <Function Name="editar_empleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="login" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="rol" Type="varchar" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="apellido" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="telefono" Type="char" Mode="In" />
+          <Parameter Name="cedula" Type="char" Mode="In" />
+        </Function>
+        <Function Name="editar_HistoriaClinica" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="Alergias" Type="varchar" Mode="In" />
+          <Parameter Name="Enfermedades" Type="varchar" Mode="In" />
+          <Parameter Name="Observaciones" Type="varchar" Mode="In" />
+          <Parameter Name="foto" Type="image" Mode="In" />
+        </Function>
+        <Function Name="editar_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="char" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="apellido" Type="varchar" Mode="In" />
+          <Parameter Name="telefono" Type="char" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="direccion" Type="varchar" Mode="In" />
+          <Parameter Name="sexo" Type="char" Mode="In" />
+        </Function>
+        <Function Name="editar_reserva" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_res" Type="int" Mode="In" />
+          <Parameter Name="idpaciente" Type="char" Mode="In" />
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="servicio" Type="varchar" Mode="In" />
+          <Parameter Name="observaciones" Type="varchar" Mode="In" />
+          <Parameter Name="estado" Type="char" Mode="In" />
+        </Function>
+        <Function Name="eliminar_empleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="char" Mode="In" />
+        </Function>
+        <Function Name="eliminar_HistoriaClinica" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="int" Mode="In" />
+        </Function>
+        <Function Name="eliminar_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="char" Mode="In" />
+        </Function>
+        <Function Name="eliminar_reserva" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id_res" Type="int" Mode="In" />
+        </Function>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="ingresar_reserva" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idpaciente" Type="char" Mode="In" />
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="servicio" Type="varchar" Mode="In" />
+          <Parameter Name="observaciones" Type="varchar" Mode="In" />
+          <Parameter Name="estado" Type="char" Mode="In" />
+        </Function>
+        <Function Name="insertar_empleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="login" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+          <Parameter Name="rol" Type="varchar" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="apellido" Type="varchar" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="telefono" Type="char" Mode="In" />
+          <Parameter Name="cedula" Type="char" Mode="In" />
+        </Function>
+        <Function Name="insertar_historia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IDPaciente" Type="char" Mode="In" />
+          <Parameter Name="Fecha_Nacimiento" Type="date" Mode="In" />
+          <Parameter Name="Antecedentes_Medicos" Type="varchar" Mode="In" />
+          <Parameter Name="Alergias" Type="varchar" Mode="In" />
+          <Parameter Name="Enfermedades_Hereditarias" Type="varchar" Mode="In" />
+          <Parameter Name="Observaciones" Type="varchar" Mode="In" />
+          <Parameter Name="Fotografias" Type="image" Mode="In" />
+        </Function>
+        <Function Name="insertar_HistoriaClinica" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idPaciente" Type="char" Mode="In" />
+          <Parameter Name="fecha" Type="date" Mode="In" />
+          <Parameter Name="Antecendentes" Type="varchar" Mode="In" />
+          <Parameter Name="Alergias" Type="varchar" Mode="In" />
+          <Parameter Name="Enfermedades" Type="varchar" Mode="In" />
+          <Parameter Name="Observaciones" Type="varchar" Mode="In" />
+          <Parameter Name="foto" Type="image" Mode="In" />
+        </Function>
+        <Function Name="insertar_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cedula" Type="char" Mode="In" />
+          <Parameter Name="nombre" Type="varchar" Mode="In" />
+          <Parameter Name="apellido" Type="varchar" Mode="In" />
+          <Parameter Name="telefono" Type="char" Mode="In" />
+          <Parameter Name="correo" Type="varchar" Mode="In" />
+          <Parameter Name="direccion" Type="varchar" Mode="In" />
+          <Parameter Name="sexo" Type="char" Mode="In" />
+        </Function>
+        <Function Name="mostrar_empleado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="mostrar_HistoriaClinica" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="mostrar_paciente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="mostrar_reserva" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="DermatologiaModelStoreContainer">
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoriaClinica" EntityType="Self.HistoriaClinica" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_HistoriaClinica_Paciente" Association="Self.FK_HistoriaClinica_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="HistoriaClinica" EntitySet="HistoriaClinica" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_Paciente" Association="Self.FK_Reserva_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DermatologiaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Rol_Servicio" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Cedula" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HistoriaClinica">
+          <Key>
+            <PropertyRef Name="ID_HistClinica" />
+          </Key>
+          <Property Name="ID_HistClinica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDPaciente" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Fecha_Nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Antecedentes_Medicos" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Alergias" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Enfermedades_Hereditarias" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fotografias" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK_HistoriaClinica_Paciente" FromRole="HistoriaClinica" ToRole="Paciente" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="HistoriaClinica" Relationship="Self.FK_HistoriaClinica_Paciente" FromRole="Paciente" ToRole="HistoriaClinica" />
+          <NavigationProperty Name="Reserva" Relationship="Self.FK_Reserva_Paciente" FromRole="Paciente" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="ID_Reserva" />
+          </Key>
+          <Property Name="ID_Reserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDPaciente" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Paciente" Relationship="Self.FK_Reserva_Paciente" FromRole="Reserva" ToRole="Paciente" />
+        </EntityType>
+        <Association Name="FK_HistoriaClinica_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="HistoriaClinica" Type="Self.HistoriaClinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="HistoriaClinica">
+              <PropertyRef Name="IDPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_Paciente">
+          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
+          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="IDPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DermatologiaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+          <EntitySet Name="HistoriaClinica" EntityType="Self.HistoriaClinica" />
+          <EntitySet Name="Paciente" EntityType="Self.Paciente" />
+          <EntitySet Name="Reserva" EntityType="Self.Reserva" />
+          <AssociationSet Name="FK_HistoriaClinica_Paciente" Association="Self.FK_HistoriaClinica_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="HistoriaClinica" EntitySet="HistoriaClinica" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_Paciente" Association="Self.FK_Reserva_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
+          <FunctionImport Name="buscar_empleado" ReturnType="Collection(DermatologiaModel.buscar_empleado_Result)">
+            <Parameter Name="letra" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="buscar_HistoriaClinica" ReturnType="Collection(DermatologiaModel.buscar_HistoriaClinica_Result)">
+            <Parameter Name="idPaciente" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="buscar_paciente" ReturnType="Collection(DermatologiaModel.buscar_paciente_Result)">
+            <Parameter Name="letra" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="buscar_reserva" ReturnType="Collection(DermatologiaModel.buscar_reserva_Result)">
+            <Parameter Name="num" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="editar_empleado">
+            <Parameter Name="login" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="rol" Mode="In" Type="String" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="apellido" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="telefono" Mode="In" Type="String" />
+            <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="editar_HistoriaClinica">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="Alergias" Mode="In" Type="String" />
+            <Parameter Name="Enfermedades" Mode="In" Type="String" />
+            <Parameter Name="Observaciones" Mode="In" Type="String" />
+            <Parameter Name="foto" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="editar_paciente">
+            <Parameter Name="cedula" Mode="In" Type="String" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="apellido" Mode="In" Type="String" />
+            <Parameter Name="telefono" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="direccion" Mode="In" Type="String" />
+            <Parameter Name="sexo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="editar_reserva">
+            <Parameter Name="id_res" Mode="In" Type="Int32" />
+            <Parameter Name="idpaciente" Mode="In" Type="String" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="servicio" Mode="In" Type="String" />
+            <Parameter Name="observaciones" Mode="In" Type="String" />
+            <Parameter Name="estado" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="eliminar_empleado">
+            <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="eliminar_HistoriaClinica">
+            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="eliminar_paciente">
+            <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="eliminar_reserva">
+            <Parameter Name="id_res" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ingresar_reserva">
+            <Parameter Name="idpaciente" Mode="In" Type="String" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="servicio" Mode="In" Type="String" />
+            <Parameter Name="observaciones" Mode="In" Type="String" />
+            <Parameter Name="estado" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insertar_empleado">
+            <Parameter Name="login" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+            <Parameter Name="rol" Mode="In" Type="String" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="apellido" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="telefono" Mode="In" Type="String" />
+            <Parameter Name="cedula" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insertar_historia">
+            <Parameter Name="IDPaciente" Mode="In" Type="String" />
+            <Parameter Name="Fecha_Nacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Antecedentes_Medicos" Mode="In" Type="String" />
+            <Parameter Name="Alergias" Mode="In" Type="String" />
+            <Parameter Name="Enfermedades_Hereditarias" Mode="In" Type="String" />
+            <Parameter Name="Observaciones" Mode="In" Type="String" />
+            <Parameter Name="Fotografias" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="insertar_HistoriaClinica">
+            <Parameter Name="idPaciente" Mode="In" Type="String" />
+            <Parameter Name="fecha" Mode="In" Type="DateTime" />
+            <Parameter Name="Antecendentes" Mode="In" Type="String" />
+            <Parameter Name="Alergias" Mode="In" Type="String" />
+            <Parameter Name="Enfermedades" Mode="In" Type="String" />
+            <Parameter Name="Observaciones" Mode="In" Type="String" />
+            <Parameter Name="foto" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="insertar_paciente">
+            <Parameter Name="cedula" Mode="In" Type="String" />
+            <Parameter Name="nombre" Mode="In" Type="String" />
+            <Parameter Name="apellido" Mode="In" Type="String" />
+            <Parameter Name="telefono" Mode="In" Type="String" />
+            <Parameter Name="correo" Mode="In" Type="String" />
+            <Parameter Name="direccion" Mode="In" Type="String" />
+            <Parameter Name="sexo" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="mostrar_empleado" ReturnType="Collection(DermatologiaModel.mostrar_empleado_Result)" />
+          <FunctionImport Name="mostrar_HistoriaClinica" ReturnType="Collection(DermatologiaModel.mostrar_HistoriaClinica_Result)" />
+          <FunctionImport Name="mostrar_paciente" ReturnType="Collection(DermatologiaModel.mostrar_paciente_Result)" />
+          <FunctionImport Name="mostrar_reserva" ReturnType="Collection(DermatologiaModel.mostrar_reserva_Result)" />
+        </EntityContainer>
+        <ComplexType Name="buscar_empleado_Result">
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Correo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Rol_Servicio" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="buscar_HistoriaClinica_Result">
+          <Property Type="Int32" Name="ID_HistClinica" Nullable="false" />
+          <Property Type="String" Name="IDPaciente" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="Fecha_Nacimiento" Nullable="false" />
+          <Property Type="String" Name="Antecedentes_Medicos" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Alergias" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Enfermedades_Hereditarias" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="100" />
+          <Property Type="Binary" Name="Fotografias" Nullable="true" MaxLength="Max" />
+        </ComplexType>
+        <ComplexType Name="buscar_paciente_Result">
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Correo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="buscar_reserva_Result">
+          <Property Type="Int32" Name="ID_Reserva" Nullable="false" />
+          <Property Type="String" Name="IDPaciente" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Servicio" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="mostrar_empleado_Result">
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Correo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Rol_Servicio" Nullable="false" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="mostrar_HistoriaClinica_Result">
+          <Property Type="Int32" Name="ID_HistClinica" Nullable="false" />
+          <Property Type="String" Name="IDPaciente" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="Fecha_Nacimiento" Nullable="false" />
+          <Property Type="String" Name="Antecedentes_Medicos" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Alergias" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Enfermedades_Hereditarias" Nullable="true" MaxLength="150" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="100" />
+          <Property Type="Binary" Name="Fotografias" Nullable="true" MaxLength="Max" />
+        </ComplexType>
+        <ComplexType Name="mostrar_paciente_Result">
+          <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Apellido" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Correo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Direccion" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="mostrar_reserva_Result">
+          <Property Type="Int32" Name="ID_Reserva" Nullable="false" />
+          <Property Type="String" Name="IDPaciente" Nullable="false" MaxLength="10" />
+          <Property Type="DateTime" Name="Fecha" Nullable="false" />
+          <Property Type="String" Name="Servicio" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DermatologiaModelStoreContainer" CdmEntityContainer="DermatologiaEntities">
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="DermatologiaModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Rol_Servicio" ColumnName="Rol_Servicio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoriaClinica">
+            <EntityTypeMapping TypeName="DermatologiaModel.HistoriaClinica">
+              <MappingFragment StoreEntitySet="HistoriaClinica">
+                <ScalarProperty Name="ID_HistClinica" ColumnName="ID_HistClinica" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Antecedentes_Medicos" ColumnName="Antecedentes_Medicos" />
+                <ScalarProperty Name="Alergias" ColumnName="Alergias" />
+                <ScalarProperty Name="Enfermedades_Hereditarias" ColumnName="Enfermedades_Hereditarias" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Fotografias" ColumnName="Fotografias" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="DermatologiaModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reserva">
+            <EntityTypeMapping TypeName="DermatologiaModel.Reserva">
+              <MappingFragment StoreEntitySet="Reserva">
+                <ScalarProperty Name="ID_Reserva" ColumnName="ID_Reserva" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Servicio" ColumnName="Servicio" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="buscar_empleado" FunctionName="DermatologiaModel.Store.buscar_empleado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.buscar_empleado_Result">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Rol_Servicio" ColumnName="Rol_Servicio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="buscar_HistoriaClinica" FunctionName="DermatologiaModel.Store.buscar_HistoriaClinica">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.buscar_HistoriaClinica_Result">
+                <ScalarProperty Name="ID_HistClinica" ColumnName="ID_HistClinica" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Antecedentes_Medicos" ColumnName="Antecedentes_Medicos" />
+                <ScalarProperty Name="Alergias" ColumnName="Alergias" />
+                <ScalarProperty Name="Enfermedades_Hereditarias" ColumnName="Enfermedades_Hereditarias" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Fotografias" ColumnName="Fotografias" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="buscar_paciente" FunctionName="DermatologiaModel.Store.buscar_paciente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.buscar_paciente_Result">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="buscar_reserva" FunctionName="DermatologiaModel.Store.buscar_reserva">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.buscar_reserva_Result">
+                <ScalarProperty Name="ID_Reserva" ColumnName="ID_Reserva" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Servicio" ColumnName="Servicio" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="editar_empleado" FunctionName="DermatologiaModel.Store.editar_empleado" />
+          <FunctionImportMapping FunctionImportName="editar_HistoriaClinica" FunctionName="DermatologiaModel.Store.editar_HistoriaClinica" />
+          <FunctionImportMapping FunctionImportName="editar_paciente" FunctionName="DermatologiaModel.Store.editar_paciente" />
+          <FunctionImportMapping FunctionImportName="editar_reserva" FunctionName="DermatologiaModel.Store.editar_reserva" />
+          <FunctionImportMapping FunctionImportName="eliminar_empleado" FunctionName="DermatologiaModel.Store.eliminar_empleado" />
+          <FunctionImportMapping FunctionImportName="eliminar_HistoriaClinica" FunctionName="DermatologiaModel.Store.eliminar_HistoriaClinica" />
+          <FunctionImportMapping FunctionImportName="eliminar_paciente" FunctionName="DermatologiaModel.Store.eliminar_paciente" />
+          <FunctionImportMapping FunctionImportName="eliminar_reserva" FunctionName="DermatologiaModel.Store.eliminar_reserva" />
+          <FunctionImportMapping FunctionImportName="ingresar_reserva" FunctionName="DermatologiaModel.Store.ingresar_reserva" />
+          <FunctionImportMapping FunctionImportName="insertar_empleado" FunctionName="DermatologiaModel.Store.insertar_empleado" />
+          <FunctionImportMapping FunctionImportName="insertar_historia" FunctionName="DermatologiaModel.Store.insertar_historia" />
+          <FunctionImportMapping FunctionImportName="insertar_HistoriaClinica" FunctionName="DermatologiaModel.Store.insertar_HistoriaClinica" />
+          <FunctionImportMapping FunctionImportName="insertar_paciente" FunctionName="DermatologiaModel.Store.insertar_paciente" />
+          <FunctionImportMapping FunctionImportName="mostrar_empleado" FunctionName="DermatologiaModel.Store.mostrar_empleado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.mostrar_empleado_Result">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Rol_Servicio" ColumnName="Rol_Servicio" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mostrar_HistoriaClinica" FunctionName="DermatologiaModel.Store.mostrar_HistoriaClinica">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.mostrar_HistoriaClinica_Result">
+                <ScalarProperty Name="ID_HistClinica" ColumnName="ID_HistClinica" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="Antecedentes_Medicos" ColumnName="Antecedentes_Medicos" />
+                <ScalarProperty Name="Alergias" ColumnName="Alergias" />
+                <ScalarProperty Name="Enfermedades_Hereditarias" ColumnName="Enfermedades_Hereditarias" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Fotografias" ColumnName="Fotografias" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mostrar_paciente" FunctionName="DermatologiaModel.Store.mostrar_paciente">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.mostrar_paciente_Result">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="mostrar_reserva" FunctionName="DermatologiaModel.Store.mostrar_reserva">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DermatologiaModel.mostrar_reserva_Result">
+                <ScalarProperty Name="ID_Reserva" ColumnName="ID_Reserva" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Servicio" ColumnName="Servicio" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
