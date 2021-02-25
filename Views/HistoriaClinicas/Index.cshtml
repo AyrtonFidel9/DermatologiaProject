@@ -78,9 +78,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Observaciones)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Fotografias)
-        </th>
+        </th>*@
 
         <th></th>
     </tr>
@@ -115,9 +115,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Observaciones)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Fotografias)
-            </td>
+            </td>*@
 
             <td>
                 @Html.ActionLink("Editar", "Edit", new { id = item.ID_HistClinica }, new { @class = "btn btn-warning" }) |

@@ -45,7 +45,7 @@ namespace WebAppDermatologia.Controllers
         // GET: Reservas/Create
         public ActionResult Create()
         {
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre");
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula");
             return View();
         }
 

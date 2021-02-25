@@ -11,20 +11,28 @@ namespace WebAppDermatologia.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Reserva
     {
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
         public int ID_Reserva { get; set; }
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
+        [Display(Name = "Cédula del Paciente")]
         public string IDPaciente { get; set; }
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
         public System.DateTime Fecha { get; set; }
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
         public string Servicio { get; set; }
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
         public string Observaciones { get; set; }
 
+        [Required(ErrorMessage = "Campo Obligatorio")]
         public string Estado { get; set; }
 
     

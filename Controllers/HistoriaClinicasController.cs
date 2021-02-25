@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using WebAppDermatologia.Models;
 
@@ -13,7 +17,7 @@ namespace WebAppDermatologia.Controllers
     public class HistoriaClinicasController : Controller
     {
         private DermatologiaEntities db = new DermatologiaEntities();
-        
+
         // GET: HistoriaClinicas
         public ActionResult HistoriaCompleta()
         {
@@ -23,13 +27,13 @@ namespace WebAppDermatologia.Controllers
                 var nombre = DB.Database.SqlQuery<string>("Select * From Paciente JOIN HistoriaClinica ON Paciente.Cedula = HistoriaClinica.IDPaciente").ToList();
                 return View(nombre);
             }
-          // return View(nombre.ToList()); 
+            // return View(nombre.ToList()); 
         }
         public ActionResult Index(string searchString)
         {
-            var historiaClinica = from s in db.HistoriaClinica.Include(h => h.Paciente) 
+            var historiaClinica = from s in db.HistoriaClinica.Include(h => h.Paciente)
                                   select s;
-       
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 historiaClinica = historiaClinica.Where(s => s.IDPaciente.Contains(searchString)
@@ -68,6 +72,11 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID_HistClinica,IDPaciente,Fecha_Nacimiento,Antecedentes_Medicos,Alergias,Enfermedades_Hereditarias,Observaciones,Fotografias")] HistoriaClinica historiaClinica)
         {
+            HttpPostedFileBase filename = Request.Files[0];
+            WebImage webImage = new WebImage(filename.InputStream);
+
+            historiaClinica.Fotografias = webImage.GetBytes();
+
             if (ModelState.IsValid)
             {
                 db.HistoriaClinica.Add(historiaClinica);
@@ -146,5 +155,19 @@ namespace WebAppDermatologia.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult getImage(int id)
+        {
+            HistoriaClinica historiaClinica = db.HistoriaClinica.Find(id);
+            byte[] imagen = historiaClinica.Fotografias;
+            MemoryStream memoryStream = new MemoryStream(imagen);
+            Image render = Image.FromStream(memoryStream);
+
+            memoryStream = new MemoryStream();
+            render.Save(memoryStream, ImageFormat.Jpeg);
+            memoryStream.Position = 0;
+           
+            return File(memoryStream, "image/jpg");
+        }
+
     }
 }

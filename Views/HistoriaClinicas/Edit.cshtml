@@ -5,12 +5,12 @@
 }
 
 <h2>Editar</h2>
-
+<link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Historia Clinica</h4>
         <hr />
@@ -28,7 +28,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Fecha_Nacimiento, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Fecha_Nacimiento, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Fecha_Nacimiento, new { htmlAttributes = new { @class = "form-control", @id = "startDate" } } )
                 @Html.ValidationMessageFor(model => model.Fecha_Nacimiento, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -68,7 +68,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Fotografias, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Fotografias, new { htmlAttributes = new { @class = "form-control" } })
+                <img src="@Url.Action("getImage","HistoriaClinicas", new {id=Model.ID_HistClinica})" />
+                <input type="file" name="FileName" id="FileName" />
+                @*@Html.EditorFor(model => model.Fotografias, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.Fotografias, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -87,4 +89,23 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.js"></script>
+    <script>
+        $(document).ready(function () {
+            var date = new Date();
+            var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            $("#startDate").datetimepicker({
+                format: 'd/M/Y',
+                maxDate: today,
+                mask: true
+            });
+
+            jQuery('#startDate').click(function () {
+                jQuery('#startDate').datetimepicker('show'); //support hide,show and destroy command
+            });
+        });
+    </script>
 }

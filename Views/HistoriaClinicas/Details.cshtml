@@ -55,7 +55,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Fotografias)
+            <img src="@Url.Action("getImage","HistoriaClinicas", new {id=Model.ID_HistClinica})"/>
+            @*@Html.DisplayFor(model => model.Fotografias)*@
         </dd>
 
         <dt>

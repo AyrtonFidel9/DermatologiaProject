@@ -33,7 +33,7 @@ namespace WebAppDermatologia.Controllers
                     }
                     else
                     {
-                        return Content("F");
+                        
                     }
                 }
             //}
