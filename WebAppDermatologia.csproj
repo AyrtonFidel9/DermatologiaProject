@@ -53,6 +53,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Flash.Mvc5, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\Flash.Mvc5.1.0.0\lib\net46\Flash.Mvc5.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=3.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.3.6.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -149,6 +152,7 @@
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ReservasController.cs" />
+    <Compile Include="Controllers\ValidacionCedula.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -274,6 +278,7 @@
       <DependentUpon>BaseDatosModelo.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\Global.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
@@ -325,6 +330,7 @@
     <Content Include="Views\Reportes\RptReserva.cshtml" />
     <Content Include="Views\Reportes\RptEmpleados.cshtml" />
     <Content Include="Views\Reportes\RptHistoriaClinica.cshtml" />
+    <Content Include="Views\Shared\_Mensajes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

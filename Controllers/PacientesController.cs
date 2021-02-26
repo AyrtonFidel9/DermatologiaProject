@@ -10,6 +10,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebAppDermatologia.Models;
+using System.Data.SqlClient;
+using System.Data.Entity.Infrastructure;
 
 namespace WebAppDermatologia.Controllers
 {
@@ -25,8 +27,17 @@ namespace WebAppDermatologia.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                pacientes = pacientes.Where(s => s.Apellido.Contains(searchString)
-                                       || s.Nombre.Contains(searchString));
+                pacientes = pacientes.Where(s => s.Cedula.Contains(searchString));
+                if (pacientes.Count()<1)
+                {
+                    Request.Flash("warning", "Paciente no Registrado");
+                }
+            }
+            else
+            {
+           
+              
+                
             }
 
             return View(pacientes.ToList());
@@ -60,12 +71,43 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Cedula,Nombre,Apellido,Telefono,Correo,Direccion,Sexo")] Paciente paciente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Paciente.Add(paciente);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                ValidacionCedula validar = new ValidacionCedula();
+                if(validar.validar(paciente.Cedula))
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.Paciente.Add(paciente);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+
+
+                    }
+                }
+                else
+                {
+                    Request.Flash("warning", "Cédula no válida");
+                }
+                
             }
+            catch(DbUpdateException e)
+            {
+                Request.Flash("danger", "La cédula del paciente ya se encuentra registrada");
+
+            }
+            catch (SqlException ey) when (ey.Number == 2627)
+            {
+                Request.Flash("danger", ey.Message);
+            }
+
+            catch (Exception ex)
+            {
+                Request.Flash("danger", "Hubo problemas en el registro del paciente");
+
+
+            }
+
 
             return View(paciente);
         }
@@ -92,12 +134,32 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Cedula,Nombre,Apellido,Telefono,Correo,Direccion,Sexo")] Paciente paciente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(paciente).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(paciente).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch (DbUpdateException e)
+            {
+                Request.Flash("danger", e.Message);
+
+            }
+            catch (SqlException ey) when (ey.Number == 2627)
+            {
+                Request.Flash("danger", ey.Message);
+            }
+
+            catch (Exception ex)
+            {
+                Request.Flash("danger", "Hubo problemas en el registro del paciente");
+
+
+            }
+            
             return View(paciente);
         }
 

@@ -60,6 +60,7 @@
         </div>
     </div>
     <div class="container body-content">
+        @Html.Partial("~/Views/Shared/_Mensajes.cshtml")
         @RenderBody()
         <hr />
         <footer>
@@ -69,6 +70,8 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="@Url.Content("~/Scripts/Global.js")"></script>
     @RenderSection("scripts", required: false)
+
 </body>
 </html>

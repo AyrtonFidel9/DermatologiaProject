@@ -20,19 +20,18 @@
         background: linear-gradient(157deg, rgba(235,235,235,1) 0%, rgba(240,240,240,1) 37%, rgba(224,224,224,1) 100%);
     }
 
-        #busqueda > label{
-            margin-top:5px;
+        #busqueda > label {
+            margin-top: 5px;
         }
+
         #busqueda > label, #SearchString {
             margin-right: 10px;
         }
 
-    #barraBusqueda{
+    #barraBusqueda {
         display: flex;
         flex-direction: row;
     }
-
-
 </style>
 
 
@@ -45,70 +44,76 @@
 @using (Html.BeginForm())
 {
     <div id="busqueda">
-        <label>Buscar por nombre o apellido:</label>
+        <label>Buscar por cédula:</label>
         <div id="barraBusqueda">
             @Html.TextBox("SearchString", null, new { @class = "form-control" })
-            <input type="submit" value="Buscar" class="btn btn-success" style="height: 35px;"/>
+
+            <h2> @TempData["Message"]   </h2>
+            <input type="submit" value="Buscar" class="btn btn-success" style="height: 35px;" />
         </div>
     </div>
 }
+@if(ViewBag.Message!=null )
+            {
+<script>alert("@ViewBag.Message");</script>
+            }
 
-    <table class="table table-striped">
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sexo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Cedula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Apellido)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Telefono)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Direccion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Sexo)
-            </th>
-            <th></th>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Correo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Direccion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sexo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.Cedula }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.Cedula }, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.Cedula }, new { @class = "btn btn-danger" })
+            </td>
         </tr>
+    }
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apellido)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Telefono)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Correo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Direccion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Sexo)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.Cedula }, new { @class = "btn btn-warning" }) |
-                    @Html.ActionLink("Detalles", "Details", new { id = item.Cedula }, new { @class = "btn btn-info" }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.Cedula }, new { @class = "btn btn-danger" })
-                </td>
-            </tr>
-        }
-
-    </table>
+</table>
