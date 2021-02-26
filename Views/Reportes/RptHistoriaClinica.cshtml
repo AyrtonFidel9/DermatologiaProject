@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "RptHistoriaClinica";
+}
+
+<h2>Reporte de Historias Clínicas</h2>
+<br />
+<button class="btn btn-primary" onclick="Descargar()">
+    <i class="glyphicon glyphicon-download"></i> Descargar Reporte
+</button>
+
+<button class="btn btn-success" onclick="MostrarP()">
+    <i class="glyphicon glyphicon-eye-open"></i> Mostrar Reporte
+</button>
+
+<hr />
+<iframe id="frmPaciente" width="100%" height="500px" frameborder="0" scrolling="no"></iframe>
+
+@section scripts{
+    <script>
+        function Descargar() {
+            window.open("/Reportes/DescargarReporteHistoriaClinica");
+        }
+
+        function MostrarP() {
+            $("#frmPaciente")
+                .attr("src", "/Reportes/DescargarReporteHistoriaClinica")
+                .load();
+        }
+    </script>
+}
+
