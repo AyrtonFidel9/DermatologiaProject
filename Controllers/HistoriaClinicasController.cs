@@ -72,30 +72,40 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID_HistClinica,IDPaciente,Fecha_Nacimiento,Antecedentes_Medicos,Alergias,Enfermedades_Hereditarias,Observaciones,Fotografias")] HistoriaClinica historiaClinica)
         {
-            var unicaHist = from h in db.HistoriaClinica join p in db.Paciente on h.IDPaciente equals p.Cedula select h;
-            unicaHist = unicaHist.Where(h => h.IDPaciente == historiaClinica.IDPaciente);
-
-            HttpPostedFileBase filename = Request.Files[0];
-            WebImage webImage = new WebImage(filename.InputStream);
-
-            historiaClinica.Fotografias = webImage.GetBytes();
-            if (unicaHist.Count()<1)
+            try
             {
-                if (ModelState.IsValid)
+                var unicaHist = from h in db.HistoriaClinica join p in db.Paciente on h.IDPaciente equals p.Cedula select h;
+                unicaHist = unicaHist.Where(h => h.IDPaciente == historiaClinica.IDPaciente);
+                if (historiaClinica.Fotografias != null)
                 {
-                    db.HistoriaClinica.Add(historiaClinica);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                    HttpPostedFileBase filename = Request.Files[0];
+                    WebImage webImage = new WebImage(filename.InputStream);
 
-               
+                    historiaClinica.Fotografias = webImage.GetBytes();
+                }
+                if (unicaHist.Count() < 1)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        db.HistoriaClinica.Add(historiaClinica);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+
+
+                }
+                else
+                {
+                    Request.Flash("danger", "La historia clinica del paciente " + historiaClinica.IDPaciente + " ya esta registrada");
+                }
             }
-            else
+            catch
             {
-                Request.Flash("danger","La historia clinica del paciente "+historiaClinica.IDPaciente +" ya esta registrada");
+                
             }
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", historiaClinica.IDPaciente);
-            return View(historiaClinica);
+                ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", historiaClinica.IDPaciente);
+                return View(historiaClinica);
+            
         }
 
         // GET: HistoriaClinicas/Edit/5

@@ -11,64 +11,64 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>Reserva</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.ID_Reserva)
-
-        <div class="form-group">
+<div class="form-horizontal">
+    <h4>Reserva</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID_Reserva)
+    @Html.HiddenFor(model => model.IDPaciente)
+    @*<div class="form-group">
             @Html.LabelFor(model => model.IDPaciente, "IDPaciente", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("IDPaciente", null, htmlAttributes: new { @class = "form-control",@readonly="readonly"})
                 @Html.ValidationMessageFor(model => model.IDPaciente, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control ", @readonly = "readonly" } })
-                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Servicio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Servicio", new List<SelectListItem>{
-                     new SelectListItem{ Text="Dermatología", Value="Dermatología"},
-                     new SelectListItem{ Text="Estética", Value="Estética"}
-                 }, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
-                @Html.ValidationMessageFor(model => model.Servicio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("Estado", new List<SelectListItem>{
-                    new SelectListItem{ Text="Pagado", Value="1"},
-                    new SelectListItem{ Text="Pendiente", Value="0"}
-                }, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-default" />
-            </div>
+    *@
+    <div class="form-group">
+        @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control " } })
+            @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
         </div>
     </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Servicio, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Servicio", new List<SelectListItem>{
+                 new SelectListItem{ Text="Dermatología", Value="Dermatología"},
+                 new SelectListItem{ Text="Estética", Value="Estética"}
+             }, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+            @Html.ValidationMessageFor(model => model.Servicio, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Estado, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("Estado", new List<SelectListItem>{
+                new SelectListItem{ Text="Pagado", Value="1"},
+                new SelectListItem{ Text="Pendiente", Value="0"}
+            }, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Guardar" class="btn btn-default" />
+        </div>
+    </div>
+</div>
 }
 
 <div>
@@ -88,7 +88,9 @@
             $("#startDate").datetimepicker({
                 format: 'd/M/Y H:i',
                 minDate: today,
-                mask: true
+                mask: true,
+                minTime: '09:00',
+                maxTime: '20:00'
             });
 
             jQuery('#startDate').click(function () {

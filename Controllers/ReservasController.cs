@@ -22,7 +22,7 @@ namespace WebAppDermatologia.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 reserva = reserva.Where(s => s.IDPaciente.Contains(searchString)
-                                       || s.Paciente.Nombre.Contains(searchString));
+                                       );
             }
             return View(reserva.ToList());
         }

@@ -117,7 +117,9 @@
             $("#startDate").datetimepicker({
                 format: 'd/M/Y H:i',
                 minDate: today,
-                mask: true
+                mask: true,
+                minTime: '09:00',
+                maxTime: '20:00'
             });
 
             jQuery('#startDate').click(function () {
