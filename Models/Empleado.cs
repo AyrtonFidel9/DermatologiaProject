@@ -23,6 +23,8 @@ namespace WebAppDermatologia.Models
 
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Contraseña")]
+        [StringLength(20, MinimumLength = 5)]
+        //[DataType (DataType.Password)]
         public string Password { get; set; }
        
 
@@ -35,6 +37,7 @@ namespace WebAppDermatologia.Models
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Nombre")]
         [StringLength(60, MinimumLength = 3)]
+        [RegularExpression("[A-Za-z]+", ErrorMessage = "Ingrese solo letras")]
         public string Nombre { get; set; }
 
 
@@ -43,6 +46,7 @@ namespace WebAppDermatologia.Models
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Apellido")]
         [StringLength(60, MinimumLength = 3)]
+        [RegularExpression("[A-Za-z]+", ErrorMessage = "Ingrese solo letras")]
         public string Apellido { get; set; }
 
 
@@ -58,12 +62,14 @@ namespace WebAppDermatologia.Models
 
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Teléfono")]
+        [RegularExpression("[0-9]+", ErrorMessage = "Ingrese solo números")]
         [StringLength(10, MinimumLength = 7)]
         public string Telefono { get; set; }
        
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Cédula")]
-        [RegularExpression("[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]", ErrorMessage = "La cédula ingresada debe contener 10 dígitos")]
+        [RegularExpression("[0-9]+", ErrorMessage = "Ingrese solo números")]
+        [StringLength(10, MinimumLength = 10)]
         public string Cedula { get; set; }
         
     }

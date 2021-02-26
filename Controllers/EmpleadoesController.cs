@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebAppDermatologia.Models;
+using System.Data.SqlClient;
+using System.Data.Entity.Infrastructure;
 
 namespace WebAppDermatologia.Controllers
 {
@@ -22,8 +24,12 @@ namespace WebAppDermatologia.Controllers
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                empleados = empleados.Where(s => s.Apellido.Contains(searchString)
-                                       || s.Nombre.Contains(searchString));
+                empleados = empleados.Where(s => s.Cedula.Contains(searchString)
+                                      );
+                if (empleados.Count() < 1)
+                {
+                    Request.Flash("warning", "Empleado no Registrado");
+                }
             }
             return View(empleados.ToList());
         }
@@ -47,6 +53,7 @@ namespace WebAppDermatologia.Controllers
         public ActionResult Create()
         {
             return View();
+
         }
 
         // POST: Empleadoes/Create
@@ -58,18 +65,48 @@ namespace WebAppDermatologia.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                var cedula = from c in db.Empleado select c;
+                cedula = cedula.Where(c=>c.Cedula == empleado.Cedula);
+                if (cedula.Count() < 1)
                 {
-                    db.Empleado.Add(empleado);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    ValidacionCedula objcedula = new ValidacionCedula();
+                    if (objcedula.validar(empleado.Cedula))
+                    {
+                        if (ModelState.IsValid)
+                        {
+                            db.Empleado.Add(empleado);
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+                    }
+                    else
+                    {
+                        Request.Flash("danger", "Cédula ingresada no válida");
+                    }
                 }
+                else
+                {
+                    Request.Flash("danger", "Cédula ya ingresada");
+                }
+                
             }
-            catch(Exception ex)
+            catch (DbUpdateException e)
             {
-                return Content(ex.Message);
-            };
-            
+                Request.Flash("danger", "La cédula del empleado ya se encuentra registrada");
+
+            }
+            catch (SqlException ey) when (ey.Number == 2627)
+            {
+                Request.Flash("danger", ey.Message);
+            }
+
+            catch (Exception ex)
+            {
+                Request.Flash("danger", "Hubo problemas en el registro del empleado");
+
+
+            }
+
             return View(empleado);
         }
 

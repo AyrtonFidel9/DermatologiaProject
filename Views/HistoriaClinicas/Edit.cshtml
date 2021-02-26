@@ -7,7 +7,7 @@
 <h2>Editar</h2>
 <link rel="stylesheet" type="text/css" href="~/Content/jquery.datetimepicker.css" />
 
-@using (Html.BeginForm())
+@using ((Html.BeginForm("Edit", "HistoriaClinicas", FormMethod.Post, new { enctype = "multipart/form-data" })))
 {
     @Html.AntiForgeryToken()
 

@@ -119,15 +119,33 @@ namespace WebAppDermatologia.Controllers
         // más detalles, vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
         public ActionResult Edit([Bind(Include = "ID_HistClinica,IDPaciente,Fecha_Nacimiento,Antecedentes_Medicos,Alergias,Enfermedades_Hereditarias,Observaciones,Fotografias")] HistoriaClinica historiaClinica)
         {
-            
-
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(historiaClinica).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                byte[] imagenactual = null;
+                HttpPostedFileBase filebase = Request.Files[0];
+                if (filebase == null)
+                {
+                    imagenactual = db.HistoriaClinica.SingleOrDefault(t => t.IDPaciente == historiaClinica.IDPaciente).Fotografias;
+                }
+                else
+                {
+                    WebImage image = new WebImage(filebase.InputStream);
+                    historiaClinica.Fotografias = image.GetBytes();
+                }
+                if (ModelState.IsValid)
+                {
+                    db.Entry(historiaClinica).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                
+            }
+            catch
+            {
+                return null;
             }
             ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", historiaClinica.IDPaciente);
             return View(historiaClinica);
@@ -169,16 +187,24 @@ namespace WebAppDermatologia.Controllers
         }
         public ActionResult getImage(int id)
         {
-            HistoriaClinica historiaClinica = db.HistoriaClinica.Find(id);
-            byte[] imagen = historiaClinica.Fotografias;
-            MemoryStream memoryStream = new MemoryStream(imagen);
-            Image render = Image.FromStream(memoryStream);
+            try
+            {
+                HistoriaClinica historiaClinica = db.HistoriaClinica.Find(id);
+                byte[] imagen = historiaClinica.Fotografias;
+                MemoryStream memoryStream = new MemoryStream(imagen);
+                Image render = Image.FromStream(memoryStream);
 
-            memoryStream = new MemoryStream();
-            render.Save(memoryStream, ImageFormat.Jpeg);
-            memoryStream.Position = 0;
-           
-            return File(memoryStream, "image/jpg");
+                memoryStream = new MemoryStream();
+                render.Save(memoryStream, ImageFormat.Jpeg);
+                memoryStream.Position = 0;
+
+                return File(memoryStream, "image/jpg");
+            }
+            catch
+            {
+                return null;
+            }
+            
         }
 
     }
