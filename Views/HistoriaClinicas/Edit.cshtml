@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Antecedentes_Medicos, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Antecedentes_Medicos, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Antecedentes_Medicos,  new { @class = "form-control"  })
                 @Html.ValidationMessageFor(model => model.Antecedentes_Medicos, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Alergias, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Alergias, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Alergias,  new { @class = "form-control"  })
                 @Html.ValidationMessageFor(model => model.Alergias, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,7 +52,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Enfermedades_Hereditarias, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Enfermedades_Hereditarias, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Enfermedades_Hereditarias, new { @class = "form-control"  })
                 @Html.ValidationMessageFor(model => model.Enfermedades_Hereditarias, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -60,7 +60,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Observaciones, new { @class = "form-control"  })
                 @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
             </div>
         </div>

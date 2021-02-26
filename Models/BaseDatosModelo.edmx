@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DermatologiaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DermatologiaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Empleado">
           <Key>
             <PropertyRef Name="Login" />
@@ -49,7 +49,7 @@
           </Key>
           <Property Name="ID_Reserva" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IDPaciente" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Fecha" Type="smalldatetime" />
           <Property Name="Servicio" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Observaciones" Type="varchar" MaxLength="100" />
           <Property Name="Estado" Type="char" MaxLength="1" Nullable="false" />
@@ -199,112 +199,22 @@
             <End Role="Reserva" EntitySet="Reserva" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DermatologiaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Empleado">
-          <Key>
-            <PropertyRef Name="Login" />
-          </Key>
-          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Rol_Servicio" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Cedula" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HistoriaClinica">
-          <Key>
-            <PropertyRef Name="ID_HistClinica" />
-          </Key>
-          <Property Name="ID_HistClinica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDPaciente" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Fecha_Nacimiento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Antecedentes_Medicos" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Alergias" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Enfermedades_Hereditarias" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Fotografias" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="Paciente" Relationship="Self.FK_HistoriaClinica_Paciente" FromRole="HistoriaClinica" ToRole="Paciente" />
-        </EntityType>
-        <EntityType Name="Paciente">
-          <Key>
-            <PropertyRef Name="Cedula" />
-          </Key>
-          <Property Name="Cedula" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="HistoriaClinica" Relationship="Self.FK_HistoriaClinica_Paciente" FromRole="Paciente" ToRole="HistoriaClinica" />
-          <NavigationProperty Name="Reserva" Relationship="Self.FK_Reserva_Paciente" FromRole="Paciente" ToRole="Reserva" />
-        </EntityType>
-        <EntityType Name="Reserva">
-          <Key>
-            <PropertyRef Name="ID_Reserva" />
-          </Key>
-          <Property Name="ID_Reserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDPaciente" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Paciente" Relationship="Self.FK_Reserva_Paciente" FromRole="Reserva" ToRole="Paciente" />
-        </EntityType>
-        <Association Name="FK_HistoriaClinica_Paciente">
-          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
-          <End Role="HistoriaClinica" Type="Self.HistoriaClinica" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Paciente">
-              <PropertyRef Name="Cedula" />
-            </Principal>
-            <Dependent Role="HistoriaClinica">
-              <PropertyRef Name="IDPaciente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Reserva_Paciente">
-          <End Role="Paciente" Type="Self.Paciente" Multiplicity="1" />
-          <End Role="Reserva" Type="Self.Reserva" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Paciente">
-              <PropertyRef Name="Cedula" />
-            </Principal>
-            <Dependent Role="Reserva">
-              <PropertyRef Name="IDPaciente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="DermatologiaEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
-          <EntitySet Name="HistoriaClinica" EntityType="Self.HistoriaClinica" />
-          <EntitySet Name="Paciente" EntityType="Self.Paciente" />
-          <EntitySet Name="Reserva" EntityType="Self.Reserva" />
-          <AssociationSet Name="FK_HistoriaClinica_Paciente" Association="Self.FK_HistoriaClinica_Paciente">
-            <End Role="Paciente" EntitySet="Paciente" />
-            <End Role="HistoriaClinica" EntitySet="HistoriaClinica" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Reserva_Paciente" Association="Self.FK_Reserva_Paciente">
-            <End Role="Paciente" EntitySet="Paciente" />
-            <End Role="Reserva" EntitySet="Reserva" />
-          </AssociationSet>
           <FunctionImport Name="buscar_empleado" ReturnType="Collection(DermatologiaModel.buscar_empleado_Result)">
-            <Parameter Name="letra" Mode="In" Type="String" />
+          <Parameter Name="letra" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="buscar_HistoriaClinica" ReturnType="Collection(DermatologiaModel.buscar_HistoriaClinica_Result)">
-            <Parameter Name="idPaciente" Mode="In" Type="String" />
+          <Parameter Name="idPaciente" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="buscar_paciente" ReturnType="Collection(DermatologiaModel.buscar_paciente_Result)">
-            <Parameter Name="letra" Mode="In" Type="String" />
+          <Parameter Name="letra" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="buscar_reserva" ReturnType="Collection(DermatologiaModel.buscar_reserva_Result)">
-            <Parameter Name="num" Mode="In" Type="String" />
+          <Parameter Name="num" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="editar_empleado">
             <Parameter Name="login" Mode="In" Type="String" />
@@ -341,16 +251,16 @@
             <Parameter Name="estado" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="eliminar_empleado">
-            <Parameter Name="cedula" Mode="In" Type="String" />
+          <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="eliminar_HistoriaClinica">
-            <Parameter Name="idPaciente" Mode="In" Type="Int32" />
+          <Parameter Name="idPaciente" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="eliminar_paciente">
-            <Parameter Name="cedula" Mode="In" Type="String" />
+          <Parameter Name="cedula" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="eliminar_reserva">
-            <Parameter Name="id_res" Mode="In" Type="Int32" />
+          <Parameter Name="id_res" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ingresar_reserva">
             <Parameter Name="idpaciente" Mode="In" Type="String" />
@@ -400,6 +310,18 @@
           <FunctionImport Name="mostrar_HistoriaClinica" ReturnType="Collection(DermatologiaModel.mostrar_HistoriaClinica_Result)" />
           <FunctionImport Name="mostrar_paciente" ReturnType="Collection(DermatologiaModel.mostrar_paciente_Result)" />
           <FunctionImport Name="mostrar_reserva" ReturnType="Collection(DermatologiaModel.mostrar_reserva_Result)" />
+          <EntitySet Name="Empleado" EntityType="DermatologiaModel.Empleado" />
+          <EntitySet Name="HistoriaClinica" EntityType="DermatologiaModel.HistoriaClinica" />
+          <EntitySet Name="Paciente" EntityType="DermatologiaModel.Paciente" />
+          <EntitySet Name="Reserva" EntityType="DermatologiaModel.Reserva" />
+          <AssociationSet Name="FK_HistoriaClinica_Paciente" Association="DermatologiaModel.FK_HistoriaClinica_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="HistoriaClinica" EntitySet="HistoriaClinica" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reserva_Paciente" Association="DermatologiaModel.FK_Reserva_Paciente">
+            <End Role="Paciente" EntitySet="Paciente" />
+            <End Role="Reserva" EntitySet="Reserva" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="buscar_empleado_Result">
           <Property Type="String" Name="Cedula" Nullable="false" MaxLength="10" />
@@ -471,65 +393,89 @@
           <Property Type="String" Name="Observaciones" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="Estado" Nullable="false" MaxLength="1" />
         </ComplexType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="Login" />
+          </Key>
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Rol_Servicio" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="HistoriaClinica">
+          <Key>
+            <PropertyRef Name="ID_HistClinica" />
+          </Key>
+          <Property Name="ID_HistClinica" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDPaciente" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Fecha_Nacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Antecedentes_Medicos" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Alergias" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Enfermedades_Hereditarias" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fotografias" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Paciente" Relationship="DermatologiaModel.FK_HistoriaClinica_Paciente" FromRole="HistoriaClinica" ToRole="Paciente" />
+        </EntityType>
+        <EntityType Name="Paciente">
+          <Key>
+            <PropertyRef Name="Cedula" />
+          </Key>
+          <Property Name="Cedula" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Apellido" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Correo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="HistoriaClinica" Relationship="DermatologiaModel.FK_HistoriaClinica_Paciente" FromRole="Paciente" ToRole="HistoriaClinica" />
+          <NavigationProperty Name="Reserva" Relationship="DermatologiaModel.FK_Reserva_Paciente" FromRole="Paciente" ToRole="Reserva" />
+        </EntityType>
+        <EntityType Name="Reserva">
+          <Key>
+            <PropertyRef Name="ID_Reserva" />
+          </Key>
+          <Property Name="ID_Reserva" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDPaciente" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="Fecha" Type="DateTime" Precision="0" />
+          <Property Name="Servicio" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Paciente" Relationship="DermatologiaModel.FK_Reserva_Paciente" FromRole="Reserva" ToRole="Paciente" />
+        </EntityType>
+        <Association Name="FK_HistoriaClinica_Paciente">
+          <End Type="DermatologiaModel.Paciente" Role="Paciente" Multiplicity="1" />
+          <End Type="DermatologiaModel.HistoriaClinica" Role="HistoriaClinica" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="HistoriaClinica">
+              <PropertyRef Name="IDPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reserva_Paciente">
+          <End Type="DermatologiaModel.Paciente" Role="Paciente" Multiplicity="1" />
+          <End Type="DermatologiaModel.Reserva" Role="Reserva" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paciente">
+              <PropertyRef Name="Cedula" />
+            </Principal>
+            <Dependent Role="Reserva">
+              <PropertyRef Name="IDPaciente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DermatologiaModelStoreContainer" CdmEntityContainer="DermatologiaEntities">
-          <EntitySetMapping Name="Empleado">
-            <EntityTypeMapping TypeName="DermatologiaModel.Empleado">
-              <MappingFragment StoreEntitySet="Empleado">
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Rol_Servicio" ColumnName="Rol_Servicio" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HistoriaClinica">
-            <EntityTypeMapping TypeName="DermatologiaModel.HistoriaClinica">
-              <MappingFragment StoreEntitySet="HistoriaClinica">
-                <ScalarProperty Name="ID_HistClinica" ColumnName="ID_HistClinica" />
-                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
-                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
-                <ScalarProperty Name="Antecedentes_Medicos" ColumnName="Antecedentes_Medicos" />
-                <ScalarProperty Name="Alergias" ColumnName="Alergias" />
-                <ScalarProperty Name="Enfermedades_Hereditarias" ColumnName="Enfermedades_Hereditarias" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="Fotografias" ColumnName="Fotografias" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Paciente">
-            <EntityTypeMapping TypeName="DermatologiaModel.Paciente">
-              <MappingFragment StoreEntitySet="Paciente">
-                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
-                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
-                <ScalarProperty Name="Correo" ColumnName="Correo" />
-                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Reserva">
-            <EntityTypeMapping TypeName="DermatologiaModel.Reserva">
-              <MappingFragment StoreEntitySet="Reserva">
-                <ScalarProperty Name="ID_Reserva" ColumnName="ID_Reserva" />
-                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Servicio" ColumnName="Servicio" />
-                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="buscar_empleado" FunctionName="DermatologiaModel.Store.buscar_empleado">
             <ResultMapping>
               <ComplexTypeMapping TypeName="DermatologiaModel.buscar_empleado_Result">
@@ -645,6 +591,59 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="DermatologiaModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Rol_Servicio" ColumnName="Rol_Servicio" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoriaClinica">
+            <EntityTypeMapping TypeName="DermatologiaModel.HistoriaClinica">
+              <MappingFragment StoreEntitySet="HistoriaClinica">
+                <ScalarProperty Name="Fotografias" ColumnName="Fotografias" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Enfermedades_Hereditarias" ColumnName="Enfermedades_Hereditarias" />
+                <ScalarProperty Name="Alergias" ColumnName="Alergias" />
+                <ScalarProperty Name="Antecedentes_Medicos" ColumnName="Antecedentes_Medicos" />
+                <ScalarProperty Name="Fecha_Nacimiento" ColumnName="Fecha_Nacimiento" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="ID_HistClinica" ColumnName="ID_HistClinica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paciente">
+            <EntityTypeMapping TypeName="DermatologiaModel.Paciente">
+              <MappingFragment StoreEntitySet="Paciente">
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cedula" ColumnName="Cedula" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reserva">
+            <EntityTypeMapping TypeName="DermatologiaModel.Reserva">
+              <MappingFragment StoreEntitySet="Reserva">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+                <ScalarProperty Name="Servicio" ColumnName="Servicio" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IDPaciente" ColumnName="IDPaciente" />
+                <ScalarProperty Name="ID_Reserva" ColumnName="ID_Reserva" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

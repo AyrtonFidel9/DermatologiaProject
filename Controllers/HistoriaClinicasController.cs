@@ -61,7 +61,7 @@ namespace WebAppDermatologia.Controllers
         // GET: HistoriaClinicas/Create
         public ActionResult Create()
         {
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre");
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula");
             return View();
         }
 
@@ -72,19 +72,29 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID_HistClinica,IDPaciente,Fecha_Nacimiento,Antecedentes_Medicos,Alergias,Enfermedades_Hereditarias,Observaciones,Fotografias")] HistoriaClinica historiaClinica)
         {
+            var unicaHist = from h in db.HistoriaClinica join p in db.Paciente on h.IDPaciente equals p.Cedula select h;
+            unicaHist = unicaHist.Where(h => h.IDPaciente == historiaClinica.IDPaciente);
+
             HttpPostedFileBase filename = Request.Files[0];
             WebImage webImage = new WebImage(filename.InputStream);
 
             historiaClinica.Fotografias = webImage.GetBytes();
-
-            if (ModelState.IsValid)
+            if (unicaHist.Count()<1)
             {
-                db.HistoriaClinica.Add(historiaClinica);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+                if (ModelState.IsValid)
+                {
+                    db.HistoriaClinica.Add(historiaClinica);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre", historiaClinica.IDPaciente);
+               
+            }
+            else
+            {
+                Request.Flash("danger","La historia clinica del paciente "+historiaClinica.IDPaciente +" ya esta registrada");
+            }
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", historiaClinica.IDPaciente);
             return View(historiaClinica);
         }
 
@@ -100,7 +110,7 @@ namespace WebAppDermatologia.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre", historiaClinica.IDPaciente);
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", historiaClinica.IDPaciente);
             return View(historiaClinica);
         }
 
@@ -111,13 +121,15 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID_HistClinica,IDPaciente,Fecha_Nacimiento,Antecedentes_Medicos,Alergias,Enfermedades_Hereditarias,Observaciones,Fotografias")] HistoriaClinica historiaClinica)
         {
+            
+
             if (ModelState.IsValid)
             {
                 db.Entry(historiaClinica).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre", historiaClinica.IDPaciente);
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", historiaClinica.IDPaciente);
             return View(historiaClinica);
         }
 

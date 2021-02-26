@@ -5,12 +5,12 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="b2c37e88395c42628b195a7891631247" Name="Diagram1">
-        <EntityTypeShape EntityType="DermatologiaModel.Empleado" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DermatologiaModel.HistoriaClinica" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DermatologiaModel.Paciente" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DermatologiaModel.Reserva" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
-        <AssociationConnector Association="DermatologiaModel.FK_HistoriaClinica_Paciente" ManuallyRouted="false" />
-        <AssociationConnector Association="DermatologiaModel.FK_Reserva_Paciente" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DermatologiaModel.Empleado" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="DermatologiaModel.HistoriaClinica" Width="1.5" PointX="3" PointY="4.25" />
+        <EntityTypeShape EntityType="DermatologiaModel.Paciente" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="DermatologiaModel.Reserva" Width="1.5" PointX="3" PointY="1.125" />
+        <AssociationConnector Association="DermatologiaModel.FK_HistoriaClinica_Paciente" />
+        <AssociationConnector Association="DermatologiaModel.FK_Reserva_Paciente" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

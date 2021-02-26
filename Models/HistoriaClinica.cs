@@ -12,37 +12,40 @@ namespace WebAppDermatologia.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+    
     public partial class HistoriaClinica
     {
         public int ID_HistClinica { get; set; }
+
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Paciente")]
         public string IDPaciente { get; set; }
 
+
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Fecha de Nacimiento")]
-        public System.DateTime Fecha_Nacimiento { get; set; }
 
+        public System.DateTime Fecha_Nacimiento { get; set; }
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Antecedentes médicos")]
+        [StringLength(150, MinimumLength = 0)]
         public string Antecedentes_Medicos { get; set; }
-
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Alérgias")]
+        [StringLength(150, MinimumLength = 0)]
         public string Alergias { get; set; }
-
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Enfermedades Hereditarias")]
+        [StringLength(150, MinimumLength = 0)]
         public string Enfermedades_Hereditarias { get; set; }
-
         [Required(ErrorMessage = "Campo Obligatorio")]
         [Display(Name = "Observaciones")]
+        [StringLength(100, MinimumLength = 0)]
         public string Observaciones { get; set; }
-
         [Display(Name = "Fotografía")]
         public byte[] Fotografias { get; set; }
-    
+       
+
         public virtual Paciente Paciente { get; set; }
     }
 }

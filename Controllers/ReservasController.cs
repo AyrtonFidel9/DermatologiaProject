@@ -56,20 +56,51 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID_Reserva,IDPaciente,Fecha,Servicio,Observaciones,Estado")] Reserva reserva)
         {
-            if (ModelState.IsValid)
-            {
-                db.Reserva.Add(reserva);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            var unicaReserva = from res in db.Reserva
+                               select res;
+            unicaReserva = unicaReserva.Where(res => res.IDPaciente == reserva.IDPaciente 
+            && res.Fecha == reserva.Fecha && res.Servicio == reserva.Servicio);
 
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre", reserva.IDPaciente);
+            var unicoServicio = from ser in db.Reserva
+                                select ser;
+            
+
+            if(unicaReserva.Count()<1)
+            {
+                
+                var unicFecha = from fec in db.Reserva select fec;
+                unicFecha = unicFecha.Where(fec => fec.Fecha == reserva.Fecha && fec.Servicio == reserva.Servicio);
+                if (unicFecha.Count()<1)
+                {
+
+                        if (ModelState.IsValid)
+                        {
+                            db.Reserva.Add(reserva);
+                            db.SaveChanges();
+                            return RedirectToAction("Index");
+                        }
+
+                }
+                else
+                {
+                    Request.Flash("warning", "La fecha "+reserva.Fecha+" ya ha sido asignada a otro paciente");
+                }
+                
+            }
+            else
+            {
+                Request.Flash("warning","La reserva ya ha sido registrada en el servicio de "+reserva.Servicio);
+            }
+            
+
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", reserva.IDPaciente);
             return View(reserva);
         }
 
         // GET: Reservas/Edit/5
         public ActionResult Edit(int? id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -79,7 +110,7 @@ namespace WebAppDermatologia.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre", reserva.IDPaciente);
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", reserva.IDPaciente);
             return View(reserva);
         }
 
@@ -96,7 +127,7 @@ namespace WebAppDermatologia.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Nombre", reserva.IDPaciente);
+            ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", reserva.IDPaciente);
             return View(reserva);
         }
 
