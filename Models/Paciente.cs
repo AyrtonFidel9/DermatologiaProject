@@ -12,7 +12,7 @@ namespace WebAppDermatologia.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
+        
     public partial class Paciente
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -46,7 +46,7 @@ namespace WebAppDermatologia.Models
         [StringLength(60,MinimumLength = 3)]
         public string Direccion { get; set; }
         [Required(ErrorMessage = "Campo Obligatorio")]
-        [Display(Name = "Sexo")]
+        [Display(Name = "Género")]
         [StringLength(1 , MinimumLength = 1, ErrorMessage = "Solo se admite un caractér M para masculino y F para femenino")]
         [RegularExpression("M|F", ErrorMessage = "Solo se admite un caractér M para masculino y F para femenino")]
         public string Sexo { get; set; }
