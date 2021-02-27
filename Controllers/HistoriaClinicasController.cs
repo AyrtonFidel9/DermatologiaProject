@@ -76,11 +76,16 @@ namespace WebAppDermatologia.Controllers
             {
                 var unicaHist = from h in db.HistoriaClinica join p in db.Paciente on h.IDPaciente equals p.Cedula select h;
                 unicaHist = unicaHist.Where(h => h.IDPaciente == historiaClinica.IDPaciente);
-                if (historiaClinica.Fotografias != null)
-                {
-                    HttpPostedFileBase filename = Request.Files[0];
-                    WebImage webImage = new WebImage(filename.InputStream);
 
+                HttpPostedFileBase filename = Request.Files[0];
+                
+                if (filename == null)
+                {
+                    historiaClinica.Fotografias = null;
+                }
+                else
+                {
+                    WebImage webImage = new WebImage(filename.InputStream);
                     historiaClinica.Fotografias = webImage.GetBytes();
                 }
                 if (unicaHist.Count() < 1)
@@ -143,11 +148,15 @@ namespace WebAppDermatologia.Controllers
                 else
 
                 {
+
+                    WebImage image = new WebImage(filebase.InputStream);
+                    historiaClinica.Fotografias = image.GetBytes();
+
                     if (historiaClinica.Fotografias != null)
                     {
-                        WebImage image = new WebImage(filebase.InputStream);
-                        historiaClinica.Fotografias = image.GetBytes();
+
                     }
+
                     
                 }
                 if (ModelState.IsValid)
