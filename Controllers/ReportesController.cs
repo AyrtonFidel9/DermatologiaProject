@@ -260,6 +260,9 @@ namespace WebAppDermatologia.Controllers
             {
                 var rptH = new ReportClass();
                 rptH.FileName = Server.MapPath("/Reporte/Acne.rpt");
+                
+                //rptH.Refresh();
+                
                 rptH.Load();
 
                 //rptH.SetParameterValue("DptoId", codigo);
@@ -276,6 +279,7 @@ namespace WebAppDermatologia.Controllers
                     logonInfo.ConnectionInfo = connInfo;
                     table.ApplyLogOnInfo(logonInfo);
                 }
+                Response.AppendHeader("Refresh", "0");
                 Response.Buffer = false;
                 Response.ClearContent();
                 Response.ClearHeaders();
