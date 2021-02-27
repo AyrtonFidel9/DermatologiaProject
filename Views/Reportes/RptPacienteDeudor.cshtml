@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "RptPacienteDeudor";
+}
+
+<h2>Reporte de Pacientes con pago Pendiente</h2>
+
+<br />
+<button class="btn btn-primary" onclick="Descargar()">
+    <i class="glyphicon glyphicon-download"></i> Descargar Reporte
+</button>
+
+<button class="btn btn-success" onclick="MostrarP()">
+    <i class="glyphicon glyphicon-eye-open"></i> Mostrar Reporte
+</button>
+
+<hr />
+<iframe id="frmPaciente" width="100%" height="500px" frameborder="0" scrolling="no"></iframe>
+
+@section scripts{
+    <script>
+        function Descargar() {
+            window.open("/Reportes/DescargarReporteDeudor");
+        }
+
+        function MostrarP() {
+            $("#frmPaciente")
+                .attr("src", "/Reportes/DescargarReporteDeudor")
+                .load();
+        }
+    </script>
+}
+
+
+

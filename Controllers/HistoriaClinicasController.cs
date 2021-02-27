@@ -141,9 +141,14 @@ namespace WebAppDermatologia.Controllers
                     imagenactual = db.HistoriaClinica.SingleOrDefault(t => t.IDPaciente == historiaClinica.IDPaciente).Fotografias;
                 }
                 else
+
                 {
-                    WebImage image = new WebImage(filebase.InputStream);
-                    historiaClinica.Fotografias = image.GetBytes();
+                    if (historiaClinica.Fotografias != null)
+                    {
+                        WebImage image = new WebImage(filebase.InputStream);
+                        historiaClinica.Fotografias = image.GetBytes();
+                    }
+                    
                 }
                 if (ModelState.IsValid)
                 {
@@ -155,7 +160,7 @@ namespace WebAppDermatologia.Controllers
             }
             catch
             {
-                return null;
+               
             }
             ViewBag.IDPaciente = new SelectList(db.Paciente, "Cedula", "Cedula", historiaClinica.IDPaciente);
             return View(historiaClinica);

@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "RptMD";
+}
+
+<h2>Reporte de Pacientes Masculinos con Reservas en Dermatología</h2>
+
+<br />
+<button class="btn btn-primary" onclick="Descargar()">
+    <i class="glyphicon glyphicon-download"></i> Descargar Reporte
+</button>
+
+<button class="btn btn-success" onclick="MostrarP()">
+    <i class="glyphicon glyphicon-eye-open"></i> Mostrar Reporte
+</button>
+
+<hr />
+<iframe id="frmPaciente" width="100%" height="500px" frameborder="0" scrolling="no"></iframe>
+
+@section scripts{
+    <script>
+        function Descargar() {
+            window.open("/Reportes/DescargarRptMD");
+        }
+
+        function MostrarP() {
+            $("#frmPaciente")
+                .attr("src", "/Reportes/DescargarRptMD")
+                .load();
+        }
+    </script>
+}
+
+
+
+
+
