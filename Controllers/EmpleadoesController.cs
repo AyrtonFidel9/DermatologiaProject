@@ -151,9 +151,10 @@ namespace WebAppDermatologia.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                return Content(ex.Message);
+                //return Content(ex.Message);
+                Request.Flash("danger", "No puede editar al Administrador del Sistema");
             }
             return View(empleado);
         }
@@ -187,8 +188,7 @@ namespace WebAppDermatologia.Controllers
             }
             catch
             {
-                Request.Flash("danger", "No puede eliminar al Administrador del Sistema");
-              
+                Request.Flash("danger", "No puede eliminar al Administrador del Sistema");         
             }
             return RedirectToAction("Index");
         }
