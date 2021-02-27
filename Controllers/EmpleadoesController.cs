@@ -178,9 +178,18 @@ namespace WebAppDermatologia.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            Empleado empleado = db.Empleado.Find(id);
-            db.Empleado.Remove(empleado);
-            db.SaveChanges();
+            try
+            {
+                Empleado empleado = db.Empleado.Find(id);
+                db.Empleado.Remove(empleado);
+                db.SaveChanges();
+
+            }
+            catch
+            {
+                Request.Flash("danger", "No puede eliminar al Administrador del Sistema");
+              
+            }
             return RedirectToAction("Index");
         }
 
